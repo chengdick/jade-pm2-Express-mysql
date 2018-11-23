@@ -1,0 +1,67 @@
+extends layout
+
+block content
+
+  div.conter
+      div.title 日志管理 
+          button.btn.btn-primary.btn-sm(onclick="window.location.href='/add'") 新增
+      ul
+        - for (var i = 0; i < result.length; ++i) {
+          li 
+            span #{result[i].id}.
+            span #{result[i].name}
+            input.f-right.search.btn.btn-danger.btn-sm(type="button",value="删除",onclick="deletes(#{result[i].id},#{i})")
+            input.f-right.search.btn.btn-primary.btn-sm.mr10(type="button",value="编辑",onclick="window.location.href='/add?edieId=1&id=#{result[i].id}'")
+            input.f-right.search.btn.btn-primary.btn-sm.mr10(type="button",value="查看",onclick="window.location.href='/search?id=#{result[i].id}'")
+        - }
+      div(id="example" style="text-align: center") 
+          ul(id="pageLimit")
+  script.
+    $(function(){
+        $('#pageLimit').bootstrapPaginator({
+                currentPage: #{page},
+                totalPages: #{results},
+                size:"normal",
+                bootstrapMajorVersion: 3,
+                alignment:"right",
+                numberOfPages:8,
+                itemTexts: function (type, page, current) {
+                    switch (type) {
+                    case "first": return "首页";
+                    case "prev": return "上一页";
+                    case "next": return "下一页";
+                    case "last": return "末页";
+                    case "page": return page;
+                    }//默认显示的是第一页。
+                },
+                onPageClicked: function (event, originalEvent, type, page){//给每个页眉绑定一个事件，其实就是ajax请求，其中page变量为当前点击的页上的数字。
+                    //- console.log()
+                    //- //- $.ajax({
+                    //- //-     url:'/task_list_page/',
+                    //- //-     type:'POST',
+                    //- //-     data:{'page':page,'count':12},
+                    //- //-     dataType:'JSON',
+                    //- //-     success:function (callback) {
+                    //- //-             $('tbody').empty();
+                    //- //-             var page_count=callback.page_count;
+                    //- //-             var page_cont=callback.page_content;
+                    //- //-             $('tbody').append(page_cont);
+                    //- //-             $('#last_page').text(page_count)
+                    //- //-         }
+                    //- //- })
+                    window.location.href='/?page='+page
+                }
+        });
+    })
+    function deletes(id,i){
+        $.post("/home/delete",{id:id},function(rep){
+            var data = JSON.parse(rep);
+            console.log(data)
+            if(data.code==1){
+                window.location.reload()
+            }else{
+                alert(data.result)
+            }
+        });
+      //- result = result.splice(0, i)
+    }
