@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  
+    div.loginForm
+        input.loginInput.loginuser.form-control(type="text", name="username"  placeholder="用户名")
+        input.loginInput.loginInputs.form-control(type="password",name="userpassword" placeholder="密码")
+        input.submit.btn.btn-primary.btn-block(type="button",value="登录")
+    script.
+        $(".submit").on("click",function(){
+            var pass=$(".loginInputs").val();
+            var name=$(".loginuser").val()
+            $.post("/login/userlogin",{userpassword:pass,'name':name},function(rep){
+
+                if(rep.code==1){
+                    window.location.href="/?page=1"
+                }else{
+                    alert(rep.result)
+                }
+            });
+        })
+
+

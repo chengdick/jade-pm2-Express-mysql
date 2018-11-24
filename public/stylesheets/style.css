@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+*{margin: 0;padding: 0}
+
+a {
+  color: #00B7FF;
+}
+
+.title{
+  padding: 10px;
+  border-bottom: 1px solid #ccc
+}
+
+ul,li{list-style: none;}
+
+li{padding: 10px 0px; border-bottom: 1px solid #ccc;overflow: hidden;}
+
+.f-left{
+  float: left;
+}
+
+.mt10{margin-top: 10px;}
+
+.f-right{
+  float: right;
+}
+
+.mr10{margin-right: 10px}
